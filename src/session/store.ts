@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { paths } from '../config/paths';
 import { log } from '../core/logger';
+import { samePath } from '../core/path-compare';
 
 export interface SessionEntry {
   /** May be absent if the entry was created by /timeout before any run
@@ -66,7 +67,7 @@ export class SessionStore {
   resumeFor(chatId: string, cwd: string): string | undefined {
     const entry = this.data[chatId];
     if (!entry) return undefined;
-    if (entry.cwd !== cwd) return undefined;
+    if (!entry.cwd || !samePath(entry.cwd, cwd)) return undefined;
     return entry.sessionId;
   }
 

@@ -31,6 +31,7 @@ import {
 } from '../config/schema';
 import { resolveAppSecret } from '../config/secret-resolver';
 import { log, withTrace } from '../core/logger';
+import { samePath } from '../core/path-compare';
 import { MediaCache, type LocalAttachment } from '../media/cache';
 import type { SessionStore } from '../session/store';
 import type { WorkspaceStore } from '../workspace/store';
@@ -501,7 +502,7 @@ async function runAgentBatch(deps: RunBatchDeps): Promise<void> {
     log.info('session', 'resume', { sessionId: resumeFrom, cwd });
   } else {
     const stale = sessions.getRaw(scope);
-    if (stale && stale.cwd !== cwd) {
+    if (stale && (!stale.cwd || !samePath(stale.cwd, cwd))) {
       log.info('session', 'stale-cleared', { staleCwd: stale.cwd, newCwd: cwd });
       sessions.clear(scope);
     } else {
