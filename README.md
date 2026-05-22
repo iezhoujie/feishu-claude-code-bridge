@@ -4,6 +4,8 @@ A lightweight bot that bridges Feishu / Lark messenger with your local Claude Co
 
 [中文 README](./README.zh.md)
 
+关于能实现的效果，详情可以阅读[飞书文档](https://larkcommunity.feishu.cn/docx/OaRIdFIRFoLM3xxTmKwcetHqn5e)
+
 ## What it does
 
 - Forwards Feishu / Lark messages (DM directly, or `@bot` in a group) to your local `claude` CLI, running in a working directory you control.
@@ -41,23 +43,6 @@ The first run detects there's no app configured and **opens a QR-code wizard**:
 3. Pick or create a PersonalAgent app.
 4. Credentials are written to `~/.lark-channel/config.json`.
 
-### Granting scopes and event subscriptions
-
-The wizard creates the app shell, but you still need to confirm a few things on the Lark Developer Console:
-
-**Permission scopes:**
-- `im:message`
-- `im:message:send_as_bot`
-- `im:resource`
-
-**Event subscriptions (over long-lived WebSocket):**
-- `im.message.receive_v1`
-- `card.action.trigger`
-- `im.message.reaction.created_v1` / `deleted_v1` (optional)
-- `im.chat.member.bot.added_v1` (optional)
-
-After enabling those, run `lark-channel-bridge start` again. Once you see `✓ Connected`, find the bot in Feishu / Lark and start chatting.
-
 ## Commands
 
 ### Host CLI
@@ -70,8 +55,6 @@ lark-channel-bridge --help                List all commands
 ```
 
 > When the same app is started multiple times, Lark's open platform routes events to one of the live WebSocket connections at random. `start` detects existing processes for the same app and (in a TTY) prompts: `[c]ontinue / [k]ill old / [a]bort`. In non-TTY mode it warns and continues.
-
-`status` / `doctor` / `handover` / `workspace` / `service` are placeholders, planned for later releases.
 
 ### Slash commands inside Feishu / Lark
 

@@ -4,6 +4,8 @@
 
 [English README](./README.md)
 
+关于能实现的效果，详情可以阅读[飞书文档](https://larkcommunity.feishu.cn/docx/OaRIdFIRFoLM3xxTmKwcetHqn5e)
+
 ## 能干什么
 
 - 在飞书（私聊直接发；群里 `@bot`）把消息转给本地的 `claude` CLI，Claude 在你指定的工作目录里工作
@@ -41,23 +43,6 @@ lark-channel-bridge start
 3. 选择 / 创建 PersonalAgent 应用
 4. 成功后凭据写入 `~/.lark-channel/config.json`
 
-### 开放平台补齐 scope 和事件订阅
-
-向导只负责创建应用，平台侧还需要手动确认：
-
-**权限 scope**：
-- `im:message`
-- `im:message:send_as_bot`
-- `im:resource`
-
-**事件订阅（使用长连接接收）**：
-- `im.message.receive_v1`
-- `card.action.trigger`
-- `im.message.reaction.created_v1` / `deleted_v1`（可选）
-- `im.chat.member.bot.added_v1`（可选）
-
-启用以后再次 `lark-channel-bridge start`，看到 `✓ 已连接` 就可以在飞书里找 bot 对话了。
-
 ## 命令速查
 
 ### 宿主 CLI
@@ -70,8 +55,6 @@ lark-channel-bridge --help                列所有命令
 ```
 
 > 多开同一个 app 时，开放平台会把事件随机推到其中一个长连接。`start` 启动前会检测同 app 已有的进程，TTY 下提示 `[c]ontinue / [k]ill old / [a]bort` 三选；非 TTY 只 warn 并继续。
-
-其它命令（`status` / `doctor` / `handover` / `workspace` / `service`）是占位，后续版本补。
 
 ### 在飞书里用的斜杠命令
 
